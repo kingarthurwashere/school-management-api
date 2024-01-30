@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
-use App\Models\Student;
-use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -12,7 +10,8 @@ class ClassroomController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt', ['except' => ['publicMethod']]);
+        // Adjust the middleware according to your needs
+        $this->middleware('jwt', ['except' => []]);
     }
 
     public function index()

@@ -24,12 +24,18 @@ class StudentController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'age' => 'required|integer',
+            'email' => 'required|email|unique:students',
+            'password' => 'required|string|min:8',
         ]);
+
 
         $student = Student::create([
             'name' => $request->input('name'),
             'age' => $request->input('age'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
         ]);
+
 
         return response()->json(['message' => 'Student created successfully', 'student' => $student]);
     }

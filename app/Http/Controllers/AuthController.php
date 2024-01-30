@@ -9,6 +9,10 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('api', ['except' => ['login', 'register']]);
+    }
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
