@@ -10,7 +10,6 @@ class ClassroomController extends Controller
 {
     public function __construct()
     {
-        // Adjust the middleware according to your needs
         $this->middleware('jwt', ['except' => []]);
     }
 

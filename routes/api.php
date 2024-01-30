@@ -1,41 +1,45 @@
 <?php
 
+/**
+ * @OA\Info(
+ *     title="Your API Title",
+ *     version="1.0",
+ *     description="Description of your API",
+ *     @OA\Contact(
+ *         email="your.email@example.com",
+ *         name="Your Name"
+ *     ),
+ *     @OA\License(
+ *         name="MIT License",
+ *         url="https://opensource.org/licenses/MIT"
+ *     )
+ * )
+ */
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ClassroomController;
-use App\Http\Controllers\AuthController;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
-// Registration route
-Route::post('register', [AuthController::class, 'register']);
 
 // Authentication routes
-Route::post('login', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::post('register', [AuthController::class, 'register'])->name('register');
 
 // Protected routes that require authentication
-Route::middleware(['auth:api', 'jwt'])->group(function () {
+Route::middleware(['auth:api', 'jwt'])->namespace('App\Http\Controllers')->group(function () {
+    // Logout route
     Route::post('logout', [AuthController::class, 'logout']);
 
-    // Resource routes
-    Route::resource('students', StudentController::class);
-    Route::resource('teachers', TeacherController::class);
-    Route::resource('classrooms', ClassroomController::class);
+    // CRUD routes using apiResource
+    Route::apiResource('students', StudentController::class);
+    Route::apiResource('teachers', TeacherController::class);
+    Route::apiResource('classrooms', ClassroomController::class);
 
     // Additional routes for admin-specific operations
     Route::middleware('role:admin')->group(function () {
