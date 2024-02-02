@@ -65,9 +65,10 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'role' => 'required|in:admin,teacher,student'
         ]);
 
         if ($validator->fails()) {
@@ -78,6 +79,7 @@ class AuthController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
+            'role' => $request->input('role'),
         ]);
 
         // Generate JWT token

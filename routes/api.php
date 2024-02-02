@@ -16,12 +16,14 @@
  * )
  */
 
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\AdminController;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

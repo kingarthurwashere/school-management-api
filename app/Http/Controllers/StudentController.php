@@ -22,34 +22,32 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-            'student_num' => 'required|string|max:255|unique:students',
-            'birth_date' => 'required|date',
-            'address' => 'required|string|max:255',
-            'parent_phone_number' => 'required|string|max:20',
-            'second_phone_number' => 'nullable|string|max:20',
-            'gender' => 'required|string|in:Male,Female,Other',
-            'classroom_id' => 'required|exists:classrooms,id',
-            'enrollment_date' => 'required|date',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'first_name' => 'required|string|max:255',
+                'surname' => 'required|string|max:255',
+                'student_num' => 'required|string|max:255|unique:students',
+                'birth_date' => 'required|date',
+                'address' => 'required|string|max:255',
+                'parent_phone_number' => 'required|string|max:20',
+                'second_phone_number' => 'nullable|string|max:20',
+                'gender' => 'required|string|in:Male,Female,Other',
+                'classroom_id' => 'required|exists:classrooms,id',
+                'enrollment_date' => 'required|date',
+            ]);
 
-        $student = Student::create([
-            'first_name' => $request->input('first_name'),
-            'surname' => $request->input('surname'),
-            'student_num' => $request->input('student_num'),
-            'birth_date' => $request->input('birth_date'),
-            'address' => $request->input('address'),
-            'parent_phone_number' => $request->input('parent_phone_number'),
-            'second_phone_number' => $request->input('second_phone_number'),
-            'gender' => $request->input('gender'),
-            'classroom_id' => $request->input('classroom_id'),
-            'enrollment_date' => $request->input('enrollment_date'),
-        ]);
+            $student = Student::create($validatedData);
 
-        return response()->json(['message' => 'Student created successfully', 'student' => $student]);
+            return response()->json(['message' => 'Student created successfully', 'student' => $student]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Validation failed
+            return response()->json(['message' => 'Validation failed', 'errors' => $e->validator->errors()], 422);
+        } catch (\Exception $e) {
+            // Other exceptions
+            return response()->json(['message' => 'Error creating student', 'error' => $e->getMessage()], 500);
+        }
     }
+
 
     public function show(Student $student)
     {
@@ -58,7 +56,7 @@ class StudentController extends Controller
 
     public function update(Request $request, Student $student)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
             'student_num' => [
@@ -76,18 +74,7 @@ class StudentController extends Controller
             'enrollment_date' => 'required|date',
         ]);
 
-        $student->update([
-            'first_name' => $request->input('first_name'),
-            'surname' => $request->input('surname'),
-            'student_num' => $request->input('student_num'),
-            'birth_date' => $request->input('birth_date'),
-            'address' => $request->input('address'),
-            'parent_phone_number' => $request->input('parent_phone_number'),
-            'second_phone_number' => $request->input('second_phone_number'),
-            'gender' => $request->input('gender'),
-            'classroom_id' => $request->input('classroom_id'),
-            'enrollment_date' => $request->input('enrollment_date'),
-        ]);
+        $student->update($validatedData);
 
         return response()->json(['message' => 'Student updated successfully', 'student' => $student]);
     }
