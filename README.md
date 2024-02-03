@@ -1,10 +1,9 @@
 # School Management System Full Stack Application
 
 <table>
-
-    <tr>
-        <td>
-            <a href="https://laravel.com"><img src="https://i.imgur.com/pBNT1yy.png" /></a>
+<tr>
+    <td>
+        <a href="https://laravel.com"><img src="https://i.imgur.com/pBNT1yy.png" /></a>
         </td>
         <td>
             <a href="https://vuejs.org/"><img src="https://i.imgur.com/BxQe48y.png" /></a>
