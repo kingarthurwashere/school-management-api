@@ -43,6 +43,12 @@ Route::middleware(['auth:api', 'jwt'])->namespace('App\Http\Controllers')->group
     Route::apiResource('teachers', TeacherController::class);
     Route::apiResource('classrooms', ClassroomController::class);
 
+    // Assign students to a classroom
+    Route::post('/classrooms/{classroom}/assign-students', [ClassroomController::class, 'assignStudents']);
+
+    // Assign teachers to a classroom
+    Route::post('/classrooms/{classroom}/assign-teachers', [ClassroomController::class, 'assignTeachers']);
+
     // Additional routes for admin-specific operations
     Route::middleware('role:admin')->group(function () {
         Route::get('admin/dashboard', 'AdminController@dashboard');
