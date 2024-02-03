@@ -31,7 +31,7 @@ You need to have PHP version **8.0** or above. Node.js version **16.0** or above
 
 #### Frontend
 
-1. Navigate to `vue` folder using terminal
+1. Navigate to `school-management-frontend` folder using terminal
 2. Run `npm install` to install vue.js project dependencies
 3. Start frontend by running `npm run dev`
 4. Open <http://localhost:8080>
